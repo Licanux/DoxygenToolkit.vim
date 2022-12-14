@@ -318,6 +318,12 @@ endif
 if !exists("g:DoxygenToolkit_fileTag")
   let g:DoxygenToolkit_fileTag = "@file "
 endif
+if !exists("g:DoxygenToolkit_detailsTag")
+  let g:DoxygenToolkit_detailsTag = "@details "
+endif
+if !exists("g:DoxygenToolkit_exampleTag")
+  let g:DoxygenToolkit_exampleTag = "@example "
+endif
 if !exists("g:DoxygenToolkit_authorTag")
   let g:DoxygenToolkit_authorTag = "@author "
 endif
@@ -477,6 +483,11 @@ function! <SID>DoxygenAuthorFunc()
     let g:DoxygenToolkit_versionString = input("Enter version string : ")
   endif
 
+  " Test companyString variable
+  if !exists("g:DoxygenToolkit_companyString")
+    let g:DoxygenToolkit_companyString = input("Enter company string : ")
+  endif
+
   " Get file name
   let l:fileName = expand('%:t')
 
@@ -485,10 +496,13 @@ function! <SID>DoxygenAuthorFunc()
   exec "normal ".l:insertionMode.s:interCommentTag.g:DoxygenToolkit_fileTag.l:fileName
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_briefTag_pre
   mark d
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_detailsTag
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_exampleTag
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_authorTag.g:DoxygenToolkit_authorName
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_versionTag.g:DoxygenToolkit_versionString
-  let l:date = strftime("%Y-%m-%d")
+  let l:date = strftime("%Y/%m/%d")
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_dateTag.l:date
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_licenseTag.g:DoxygenToolkit_companyString
   if ( g:DoxygenToolkit_endCommentTag != "" )
     exec "normal o".s:endCommentTag
   endif
