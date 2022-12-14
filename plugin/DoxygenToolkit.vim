@@ -312,8 +312,14 @@ endif
 if !exists("g:DoxygenToolkit_blockFooter")
   let g:DoxygenToolkit_blockFooter = ""
 endif
+if !exists("g:DoxygenToolkit_licenseTag_pre")
+  let g:DoxygenToolkit_licenseTag_pre = "*****************************************************************************"
+endif
 if !exists("g:DoxygenToolkit_licenseTag")
   let g:DoxygenToolkit_licenseTag = s:licenseTag
+endif
+if !exists("g:DoxygenToolkit_licenseTag_post")
+  let g:DoxygenToolkit_licenseTag_post = "*****************************************************************************"
 endif
 if !exists("g:DoxygenToolkit_fileTag")
   let g:DoxygenToolkit_fileTag = "@file "
@@ -483,9 +489,9 @@ function! <SID>DoxygenAuthorFunc()
     let g:DoxygenToolkit_versionString = input("Enter version string : ")
   endif
 
-  " Test companyString variable
-  if !exists("g:DoxygenToolkit_companyString")
-    let g:DoxygenToolkit_companyString = input("Enter company string : ")
+  " Test licenseString variable
+  if !exists("g:DoxygenToolkit_licenseString")
+    let g:DoxygenToolkit_licenseString = input("Enter license string : ")
   endif
 
   " Get file name
@@ -502,7 +508,9 @@ function! <SID>DoxygenAuthorFunc()
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_versionTag.g:DoxygenToolkit_versionString
   let l:date = strftime("%Y/%m/%d")
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_dateTag.l:date
-  exec "normal o".s:interCommentTag.g:DoxygenToolkit_licenseTag.g:DoxygenToolkit_companyString
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_licenseTag_pre
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_licenseTag.g:DoxygenToolkit_licenseString
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_licenseTag_post
   if ( g:DoxygenToolkit_endCommentTag != "" )
     exec "normal o".s:endCommentTag
   endif
